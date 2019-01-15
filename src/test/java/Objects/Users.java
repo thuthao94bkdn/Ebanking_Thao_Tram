@@ -1,22 +1,64 @@
 package Objects;
 
+import org.apache.commons.codec.language.bm.Rule;
+
 public class Users {
-    private String Username;
+    private String Account;
     private String Password;
+    private String Confirmassword;
+    private  String FullName;
+    private  String Phone;
+    private  String Birthday;
+    private  String PassPost;
+    private  String Email;
+    private String City;
 
-    public String getUsername() {
-        return Username;
+    public String getAccount() { return Account;}
+    public void setAccount(String account) {
+        Account = account;
     }
-
-    public void setUsername(String username) {
-        Username = username;
-    }
-
     public String getPassword() {
         return Password;
     }
-
-    public void setPassword(String password) {
+    public void setPassword(String password){
         Password = password;
     }
+    public String getConfirmPassword() {
+        return Confirmassword;
+    }
+    public void setConfirmPassword(String confirmpassword){
+        Confirmassword = confirmpassword;
+    }
+    public String getFullName() {
+        return FullName;
+    }
+    public void setFullName(String fullname) {
+        FullName = fullname;
+    }
+    public String getPhone() {
+        return Phone;
+    }
+    public void setPhone(String phone) {
+        Phone = phone;
+    }
+    public String getBirthday() {
+        return Birthday;
+    }
+    public void setBirthday(String birthday) {
+        Birthday = birthday;
+    }
+    public String getPassPost() {
+        return PassPost;
+    }
+    public void setPassPost(String passPost) {
+        PassPost = passPost;
+    }
+    public String getEmail() {
+        return Email;
+    }
+    public void setEmail(String email) {
+        Email = email;
+    }
+    public String getCity(){return City;}
+    public void setCity(String city){ City = city;}
 }
