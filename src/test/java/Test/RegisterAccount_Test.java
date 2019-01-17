@@ -4,9 +4,7 @@ import Objects.Users;
 import Pages.RegisterAccount_Page;
 import  Actions.RegisterAccount_Action;
 import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -16,7 +14,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.concurrent.ThreadFactory;
 
 public class RegisterAccount_Test {
     WebDriver driver;
@@ -54,21 +51,12 @@ public class RegisterAccount_Test {
         //Step 2:  Enter valid data into all field in Register Page
         RegisterAccount_Action.enterInformation(driver, Thao);
         //Step 3: Click on "Đăng ký" button
-
         RegisterAccount_Action.ClickOnRegister(driver);
-
         //Step 4: Click on "Tạo tài khoản" button
-//        Actions actions = new Actions(driver);
-//        actions.moveToElement(driver.findElement(By.xpath(RegisterAccount_Page.btn_CreateAccount2))).perform();
-
-
         WebDriverWait wait = new WebDriverWait(driver, 10);
-        //wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath(RegisterAccount_Page.btn_CreateAccount2))));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(RegisterAccount_Page.btn_CreateAccount2)));
-
-
-
         RegisterAccount_Action.ClickOnCreateAccount2(driver);
+        //Check:
         String RegisterSuccessfully = driver.findElement(By.xpath(".//div[@class='ui-dialog-content ui-widget-content']")).getText();
         Assert.assertEquals("Đăng kí tài khoản thành công, vui lòng vào Email để kích hoạt tài khoản.", RegisterSuccessfully);
     }
@@ -84,12 +72,14 @@ public class RegisterAccount_Test {
         //Step 3: Click on "Đăng ký" button
         RegisterAccount_Action.ClickOnRegister(driver);
         //Step 4: Click on "Tạo tài khoản" button
-        Actions actions = new Actions(driver);
-        actions.moveToElement(driver.findElement(By.xpath(RegisterAccount_Page.btn_CreateAccount2))).perform();
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(RegisterAccount_Page.btn_CreateAccount2)));
         RegisterAccount_Action.ClickOnCreateAccount2(driver);
-        //Check
-        //Assert.assertEquals();
+        //Check:
+        String Registerpage = driver.findElement(By.xpath(".//div[@id='j_idt9:msgs_container']//span[contains(.,'Tài khoản : Validation Error: Length is less than allowable minimum of ')]")).getText();
+        Assert.assertEquals("Tài khoản phải có ít nhất 8 ký tự", Registerpage);
     }
+
     @Test //"Tài khoản nhập sai" message displays below "Tài khoản" field when customer leave blank "Tài khoản" field in register page
     public void TC_Register_04() {
         Thao.setAccount("");
@@ -97,14 +87,17 @@ public class RegisterAccount_Test {
         Thao.setFullName("Nguyen Thi Thu Thao");
         //Step 1: Click on "Tạo tài khoản" link
         RegisterAccount_Action.clickOnCreateAccount(driver);
-        //Step 2: Enter valid data into all field and customer leave blank "Tài khoản" field
+        //Step 2: Enter valid data into all field and enter account is less than 8 characters into "Tài khoản" field
         RegisterAccount_Action.enterInformation(driver, Thao);
         //Step 3: Click on "Đăng ký" button
         RegisterAccount_Action.ClickOnRegister(driver);
         //Step 4: Click on "Tạo tài khoản" button
-        Actions actions = new Actions(driver);
-        actions.moveToElement(driver.findElement(By.xpath(RegisterAccount_Page.btn_CreateAccount2))).perform();
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(RegisterAccount_Page.btn_CreateAccount2)));
         RegisterAccount_Action.ClickOnCreateAccount2(driver);
+        //Check:
+        String Registerpage = driver.findElement(By.xpath(".//div[@id='j_idt9:msgs_container']//span[contains(.,'Tài khoản nhập sai')]")).getText();
+        Assert.assertEquals("Tài khoản nhập sai", Registerpage);
     }
     @Test //verify that "Tài khoản đã tồn tại" message displays in register page when customer enter account has been used into"Tài khoản" field
     public void TC_Register_05(){
@@ -118,14 +111,14 @@ public class RegisterAccount_Test {
         //Step 3: Click on "Đăng ký" button
         RegisterAccount_Action.ClickOnRegister(driver);
         //Step 4: Click on "Tạo tài khoản" button
-        Actions actions = new Actions(driver);
-        actions.moveToElement(driver.findElement(By.xpath(RegisterAccount_Page.btn_CreateAccount2))).perform();
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(RegisterAccount_Page.btn_CreateAccount2)));
         RegisterAccount_Action.ClickOnCreateAccount2(driver);
         //check
-        String Account = driver.findElement(By.xpath(".//div[@class='ui-dialog-content ui-widget-content' and contains(.,'Tài khoản đã tồn tại')]")).getText();
-        Assert.assertEquals("Tài khoản đã tồn tại", Account);
+       // String Account = driver.findElement(By.xpath(".//div[@id='primefacesmessagedlg']")).getText();
+        Assert.assertTrue(driver.findElement(By.xpath(".//div[@id='primefacesmessagedlg']")).isDisplayed());
     }
-    @Test //Verify that "Vui lòng nhập mật khẩu" message displays when customer leave blank "Mật khẩu" field in register page
+    @Test //Verify that "Mật khẩu lớn hơn 8 kí tự" message displays when customer leave blank "Mật khẩu" field in register page
     public void TC_Register_06() {
         Thao.setAccount("12345678901234");
         Thao.setPassword("");
@@ -137,10 +130,12 @@ public class RegisterAccount_Test {
         //Step 3: Click on "Đăng ký" button
         RegisterAccount_Action.ClickOnRegister(driver);
         //Step 4: Click on "Tạo tài khoản" button
-        Actions actions = new Actions(driver);
-        actions.moveToElement(driver.findElement(By.xpath(RegisterAccount_Page.btn_CreateAccount2))).perform();
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(RegisterAccount_Page.btn_CreateAccount2)));
         RegisterAccount_Action.ClickOnCreateAccount2(driver);
-        //check
+        //Check:
+        String Account = driver.findElement(By.xpath(".//div[@id='j_idt9:msgs_container']//span[contains(.,'Mật khẩu lớn hơn 8 kí tự')]")).getText();
+        Assert.assertEquals("Mật khẩu lớn hơn 8 kí tự", Account);
     }
     @Test //Verify that "Mật khẩu lớn hơn 8 kí tự" message displays when customer enter password is less than 8 character into "Mật khẩu" field in register page
     public void TC_Register_07() {
@@ -154,10 +149,12 @@ public class RegisterAccount_Test {
         //Step 3: Click on "Đăng ký" button
         RegisterAccount_Action.ClickOnRegister(driver);
         //Step 4: Click on "Tạo tài khoản" button
-        Actions actions = new Actions(driver);
-        actions.moveToElement(driver.findElement(By.xpath(RegisterAccount_Page.btn_CreateAccount2))).perform();
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(RegisterAccount_Page.btn_CreateAccount2)));
         RegisterAccount_Action.ClickOnCreateAccount2(driver);
-        //check
+        //Check:
+        String Account = driver.findElement(By.xpath(".//div[@id='j_idt9:msgs_container']//span[contains(.,'j_idt9:pwd1: Validation Error: Length is less than allowable minimum of ')]")).getText();
+        Assert.assertEquals("Mật khẩu lớn hơn 8 kí tự", Account);
     }
     @Test //Verify that "Không trùng mật khẩu" message displays below "Nhập lại mật khẩu" field when customer enter confirm password not match password in register page
     public void TC_Register_08() {
@@ -171,10 +168,12 @@ public class RegisterAccount_Test {
         //Step 3: Click on "Đăng ký" button
         RegisterAccount_Action.ClickOnRegister(driver);
         //Step 4: Click on "Tạo tài khoản" button
-        Actions actions = new Actions(driver);
-        actions.moveToElement(driver.findElement(By.xpath(RegisterAccount_Page.btn_CreateAccount2))).perform();
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(RegisterAccount_Page.btn_CreateAccount2)));
         RegisterAccount_Action.ClickOnCreateAccount2(driver);
-        //check
+        //Check:
+        String Account = driver.findElement(By.xpath(".//div[@id='j_idt9:msgs_container']//span[contains(.,'j_idt9:pwd1: Validation Error.')]")).getText();
+        Assert.assertEquals("Không trùng mật khẩu", Account);
     }
     @Test //Verify that "Vui lòng nhập Họ tên" message displays below "Họ tên" field when customer leave blank "Họ tên" field in register page
     public void TC_Register_09() {
@@ -188,10 +187,12 @@ public class RegisterAccount_Test {
         //Step 3: Click on "Đăng ký" button
         RegisterAccount_Action.ClickOnRegister(driver);
         //Step 4: Click on "Tạo tài khoản" button
-        Actions actions = new Actions(driver);
-        actions.moveToElement(driver.findElement(By.xpath(RegisterAccount_Page.btn_CreateAccount2))).perform();
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(RegisterAccount_Page.btn_CreateAccount2)));
         RegisterAccount_Action.ClickOnCreateAccount2(driver);
-        //check
+        //Check:
+        String Account = driver.findElement(By.xpath(".//div[@id='j_idt9:msgs_container']//span[contains(.,'size must be between 1 and 100')]")).getText();
+        Assert.assertEquals("Không trùng mật khẩu", Account);
     }
     @Test //Verify that “Độ lớn từ 1 đến 100 ký tự” message displays below “Họ tên” field when customer enter full name more than 100 characters into “Họ tên” field in register page
     public void TC_Register_10() {
@@ -205,13 +206,15 @@ public class RegisterAccount_Test {
         //Step 3: Click on "Đăng ký" button
         RegisterAccount_Action.ClickOnRegister(driver);
         //Step 4: Click on "Tạo tài khoản" button
-        Actions actions = new Actions(driver);
-        actions.moveToElement(driver.findElement(By.xpath(RegisterAccount_Page.btn_CreateAccount2))).perform();
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(RegisterAccount_Page.btn_CreateAccount2)));
         RegisterAccount_Action.ClickOnCreateAccount2(driver);
-        //check
+        //Check:
+        String Account = driver.findElement(By.xpath(".//div[@id='j_idt9:msgs_container']//span[contains(.,'size must be between 1 and 100')]")).getText();
+        Assert.assertEquals("Độ lớn từ 1 đến 100 ký tự", Account);
     }
     @AfterMethod
     public void After(){
-        //driver.quit();
+        driver.quit();
     }
 }

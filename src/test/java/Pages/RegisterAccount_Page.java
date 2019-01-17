@@ -15,11 +15,8 @@ public class RegisterAccount_Page {
     public static String txt_Passpost = ".//input[@id='j_idt9:cmnd']";
     public static String txt_Email = ".//input[@id='j_idt9:email']";
     public static String btn_Register = ".//button//span[.='Đăng ký']";
-   // public static String btn_CreateAccount2 = ".//input[@type='submit' and @name='j_idt9:j_idt30']";
-    //public static String btn_CreateAccount2 = ".//input[@name='j_idt9:j_idt30']";
-    //public static String btn_CreateAccount2 = ".//div[@class='ui-dialog-content ui-widget-content']//input[@name='j_idt9:j_idt30']";
-    //public static String btn_CreateAccount2 = ".//div[@id='j_idt9:j_idt28']//input[@name='j_idt9:j_idt30']";
     public static String btn_CreateAccount2 = ".//input[@value='Tạo tài khoản']";
     //.//div[@id="j_idt9:msgs_container"]//span[contains(.,'Mật khẩu lớn hơn 8 kí tư')]
+   // public static String errormessage = ".//div[@id='j_idt9:msgs_container']//span[contains(.,'Tài khoản nhập sai')]";
 }
 

@@ -1,7 +1,4 @@
 package Objects;
-
-import org.apache.commons.codec.language.bm.Rule;
-
 public class Users {
     private String Account;
     private String Password;
@@ -61,4 +58,5 @@ public class Users {
     }
     public String getCity(){return City;}
     public void setCity(String city){ City = city;}
+
 }
